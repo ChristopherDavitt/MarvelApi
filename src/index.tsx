@@ -1,17 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { Home, Dashboard, Signin } from './components';
+import { ThemeProvider } from '@mui/styles';
 import reportWebVitals from './reportWebVitals';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './styles.css';
+import { theme } from './Theme/themes';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+import { FirebaseAppProvider } from 'reactfire'; 
+import 'firebase/auth'; 
+import { firebaseConfig } from './firebaseConfig';
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+    <Provider store={store}>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Home title  ={'Marvels Inventory'}/>} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/signin' element={<Signin />} />
+        </Routes>
+      </Router>
+    </Provider>
+    </FirebaseAppProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
